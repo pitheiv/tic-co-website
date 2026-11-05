@@ -1,0 +1,81 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thực đơn | Tic & Co.</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="header">
+    <div class="container navbar">
+        <a href="{% url 'home' %}" class="logo">tic<span>&</span>co.</a>
+        <nav class="nav-menu">
+            <a href="{% url 'home' %}">Trang chủ</a>
+            <a href="{% url 'menu' %}">Thực đơn</a>
+            <a href="{% url 'home' %}#category">Danh mục</a>
+            <a href="{% url 'home' %}#about">Về chúng mình</a>
+        </nav>
+        <a href="{% url 'menu' %}" class="header-btn">Đặt Món ở Đây ♡</a>
+    </div>
+</header>
+
+<section class="section">
+    <div class="container">
+        <div class="section-heading">
+            <span class="small-title">OUR MENU</span>
+            <h2>Thực đơn nhà <span>Tic & Co.</span></h2>
+        </div>
+
+        <div class="filter-bar">
+            <a href="{% url 'menu' %}" class="filter-btn {% if not current_cat %}active{% endif %}">Tất cả</a>
+            {% for c in categories %}
+            <a href="{% url 'menu' %}?cat={{ c.id }}"
+               class="filter-btn {% if current_cat == c.id|stringformat:'s' %}active{% endif %}">
+                {{ c.icon }} {{ c.name }}
+            </a>
+            {% endfor %}
+        </div>
+
+        <div class="product-grid">
+            {% for p in products %}
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="{{ p.image.url }}" alt="{{ p.name }}">
+                    {% if p.tag %}<span class="product-tag">{{ p.tag }}</span>{% endif %}
+                </div>
+                <div class="product-info">
+                    <h3>{{ p.name }}</h3>
+                    <p>{{ p.description }}</p>
+                    <div class="product-bottom">
+                        <strong>{{ p.price|intcomma }}đ</strong>
+                        <a href="#" class="add-btn">+</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>Chưa có món nào, quay lại sau nhé ♡</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container footer-content">
+        <div>
+            <a href="{% url 'home' %}" class="logo footer-logo">tic<span>&</span>co.</a>
+            <p>Little treats, big happiness!</p>
+        </div>
+        <div class="footer-right">
+            <p>Have a good day ♡</p>
+            <p>© 2026 Tic & Co. All rights reserved.</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
