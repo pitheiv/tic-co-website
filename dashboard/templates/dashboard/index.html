@@ -1,0 +1,145 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic & Co. | Dashboard</title>
+    <link rel="stylesheet" href="{% static 'dashboard/css/style.css' %}">
+</head>
+<body>
+
+<div class="dashboard">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <h2>tic & co.</h2>
+            <p>MANAGEMENT</p>
+        </div>
+
+        <nav>
+            <a class="active" href="{% url 'dashboard:index' %}">▦ Tổng quan</a>
+            <a href="#">🛍 Bán hàng</a>
+            <a href="#">📋 Đơn hàng</a>
+            <a href="#">🥤 Sản phẩm</a>
+            <a href="#">📦 Kho hàng</a>
+            <a href="#">💰 Doanh thu</a>
+            <a href="#">👥 Nhân viên</a>
+            <a href="#">⚙ Cài đặt</a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <span>Tic & Co. © 2026</span>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <h2>Tổng quan</h2>
+                <p>Chào mừng bạn đến với Tic & Co. Management!</p>
+            </div>
+            
+<div class="admin-profile">
+    <span>👤</span>
+    <strong>{{ request.user.username }}</strong>
+
+    <form method="post" action="{% url 'dashboard:logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="logout-btn">
+            Đăng xuất
+        </button>
+    </form>
+</div>
+
+        </header>
+
+        <section class="welcome">
+            <div>
+                <p>YOUR BUSINESS, YOUR WAY</p>
+                <h1>Xin chào! 👋</h1>
+                <span>Cùng xem tình hình kinh doanh hôm nay nhé.</span>
+            </div>
+            <div class="welcome-icon">🧋</div>
+        </section>
+
+        <section class="stats">
+
+            <div class="stat-card">
+                <span>Doanh thu hôm nay</span>
+                <h2>{{ today_revenue|floatformat:0 }} đ</h2>
+                <small>Đơn đã hoàn thành</small>
+            </div>
+
+            <div class="stat-card">
+                <span>Đơn hàng hôm nay</span>
+                <h2>{{ today_orders }}</h2>
+                <small>Tổng số đơn được tạo</small>
+            </div>
+
+            <div class="stat-card">
+                <span>Đơn cần xử lý</span>
+                <h2>{{ pending_orders }}</h2>
+                <small>Đang chờ hoặc chuẩn bị</small>
+            </div>
+
+            <div class="stat-card">
+                <span>Sản phẩm</span>
+                <h2>{{ product_count }}</h2>
+                <small>Tổng số sản phẩm</small>
+            </div>
+
+        </section>
+
+        <section class="orders">
+            <div class="section-heading">
+                <div>
+                    <h2>Đơn hàng gần đây</h2>
+                    <p>Theo dõi hoạt động bán hàng</p>
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã đơn</th>
+                            <th>Khách hàng</th>
+                            <th>Hình thức</th>
+                            <th>Tổng tiền</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for order in recent_orders %}
+                        <tr>
+                            <td>#{{ order.id }}</td>
+                            <td>{{ order.customer_name }}</td>
+                            <td>{{ order.get_order_type_display }}</td>
+                            <td>{{ order.total_price|floatformat:0 }} đ</td>
+                            <td>
+                                <span class="status">
+                                    {{ order.get_status_display }}
+                                </span>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="empty">
+                                Chưa có đơn hàng nào.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+</body>
+</html>

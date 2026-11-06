@@ -1,0 +1,170 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic & Co. | Đăng nhập</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fffaf3;
+            color: #49372f;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 40px rgba(73, 55, 47, 0.08);
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .brand h1 {
+            color: #e98755;
+            font-size: 36px;
+        }
+
+        .brand p {
+            font-size: 11px;
+            letter-spacing: 4px;
+            margin-top: 7px;
+        }
+
+        .login-card h2 {
+            font-size: 23px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #998b80;
+            font-size: 13px;
+            margin-bottom: 28px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 9px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #eee2d8;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            outline: none;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #e98755;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: #e98755;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #d87543;
+        }
+
+        .error {
+            background: #fff0ed;
+            color: #b94d3b;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #a99a90;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-card">
+
+        <div class="brand">
+            <h1>tic & co.</h1>
+            <p>MANAGEMENT</p>
+        </div>
+
+        <h2>Chào mừng trở lại!</h2>
+        <p class="subtitle">
+            Đăng nhập để quản lý cửa hàng của bạn.
+        </p>
+
+        {% if form.errors %}
+            <div class="error">
+                Tên đăng nhập hoặc mật khẩu không chính xác.
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+
+            <label for="id_username">Tên đăng nhập</label>
+            <input
+                type="text"
+                name="username"
+                id="id_username"
+                placeholder="Nhập tên đăng nhập"
+                required
+                autofocus
+            >
+
+            <label for="id_password">Mật khẩu</label>
+            <input
+                type="password"
+                name="password"
+                id="id_password"
+                placeholder="Nhập mật khẩu"
+                required
+            >
+
+            <button type="submit">Đăng nhập →</button>
+        </form>
+        {% if form.errors %}
+            <p>Sai tên đăng nhập hoặc mật khẩu.</p>
+        {% endif %}
+        <div class="footer">
+            Tic & Co. © 2026
+        </div>
+
+    </div>
+</body>
+</html>
